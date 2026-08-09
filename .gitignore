@@ -1,0 +1,57 @@
+# --- Terraform ------------------------------------------------------------
+# Local .terraform dirs, plan files, and any local state (bootstrap uses
+# local state on purpose — never commit it, even though it's "just" a
+# bucket-creation config).
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+crash.log
+crash.*.log
+*.tfplan
+*.tfvars
+!*.tfvars.example
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+
+# --- AWS / credentials ------------------------------------------------------
+# Never commit access keys — including the bedrock-dev-view grading
+# credentials (section 4.3). Those go in the Deliverables doc, not the repo.
+.aws/
+*.pem
+*.env
+.env.*
+credentials.json
+aws_credentials*
+
+# --- Node / Lambda ----------------------------------------------------------
+node_modules/
+npm-debug.log*
+lambda/**/node_modules/
+lambda/**/*.zip
+package-lock.json.bak
+
+# --- Python (if Lambda is written in Python) --------------------------------
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# --- Kubernetes / Helm -------------------------------------------------------
+# Local kubeconfig files some tools generate — never commit cluster access.
+kubeconfig
+*.kubeconfig
+
+# --- OS / editor cruft --------------------------------------------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# --- Explicitly NOT ignored -----------------------------------------------
+# grading.json is a required deliverable — the exam wants it committed
+# to the repo root. Do not add it here even though it's Terraform output.
