@@ -57,7 +57,7 @@ Thumbs.db
 rendered.yaml
 retail-store-sample-chart
 text-file.txt
-terraform.yaml
+# terraform.yaml
 
 # --- Explicitly NOT ignored -----------------------------------------------
 # grading.json is a required deliverable — the exam wants it committed
