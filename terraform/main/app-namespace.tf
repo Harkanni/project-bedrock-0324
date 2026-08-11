@@ -11,7 +11,7 @@ resource "kubernetes_namespace" "retail_app" {
     }
   }
 
-  depends_on = [aws_eks_node_group.main, aws_eks_access_policy_association.admin] 
+  depends_on = [aws_eks_node_group.main, aws_eks_access_policy_association.admin]
 }
 # The retail app's catalog/orders services expect their DB credentials as
 # a plain Kubernetes Secret (that's how the chart is written) — they don't

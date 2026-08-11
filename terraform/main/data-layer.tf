@@ -72,7 +72,7 @@ resource "aws_db_instance" "catalog_mysql" {
   instance_class = "db.t3.micro"
 
   allocated_storage = 20
-  storage_type       = "gp3"
+  storage_type      = "gp3"
 
   db_name  = "catalog"
   username = "catalog_admin"
@@ -86,7 +86,7 @@ resource "aws_db_instance" "catalog_mysql" {
 
   # Bonus 5.5: automated backups, non-zero retention.
   backup_retention_period = 1
-  backup_window            = "03:00-04:00"
+  backup_window           = "03:00-04:00"
 
   skip_final_snapshot = true # acceptable for a course exam; not for real prod
 
@@ -104,7 +104,7 @@ resource "aws_db_instance" "orders_postgres" {
   instance_class = "db.t3.micro"
 
   allocated_storage = 20
-  storage_type       = "gp3"
+  storage_type      = "gp3"
 
   db_name  = "orders"
   username = "orders_admin"
@@ -117,7 +117,7 @@ resource "aws_db_instance" "orders_postgres" {
   publicly_accessible = false
 
   backup_retention_period = 1
-  backup_window            = "03:00-04:00"
+  backup_window           = "03:00-04:00"
 
   skip_final_snapshot = true
 
