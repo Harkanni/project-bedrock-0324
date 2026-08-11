@@ -2,7 +2,6 @@ name: "Project Bedrock — Terraform CI/CD"
 
 on:
   workflow_dispatch:
-    
   push:
     branches:
       - main
@@ -11,8 +10,7 @@ on:
       - main
 
 permissions:
-  id-token: write   # Required for AWS OIDC authentication
-  contents: read    # Required to checkout the repository
+  contents: read        # Required to checkout the repository
   pull-requests: write # Required to post PR comments
 
 jobs:
@@ -27,17 +25,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Check GitHub Context
-        run: |
-          echo "Repository: $GITHUB_REPOSITORY"
-          echo "Ref: $GITHUB_REF"
-          echo "Event: $GITHUB_EVENT_NAME"
-
-      - name: Configure AWS Credentials via OIDC
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          # role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/project-bedrock-github-actions-role
-          role-to-assume: arn:aws:iam::969325258559:role/project-bedrock-github-actions-role
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
       - name: Setup Terraform
@@ -46,31 +38,35 @@ jobs:
           terraform_version: "1.11.0"
 
       - name: Terraform Format Check
+        id: fmt
         run: terraform fmt -check
 
       - name: Terraform Init
+        id: init
         run: terraform init
 
       - name: Terraform Validate
+        id: validate
         run: terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request'
-        run: |
-          terraform plan -no-color -out=tfplan
+        run: terraform plan -no-color -out=tfplan
         continue-on-error: true
 
       - name: Post Plan to Pull Request
         uses: actions/github-script@v7
         if: github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            const output = `#### Terraform Format and Style 🖌 \`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️ \`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖 \`${{ steps.validate.outcome }}\`
+            #### Terraform Plan 📖 \`${{ steps.plan.outcome }}\`
 
             <details><summary>Show Plan</summary>
 
