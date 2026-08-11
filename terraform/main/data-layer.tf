@@ -127,16 +127,30 @@ resource "aws_db_instance" "orders_postgres" {
 }
 
 # --- DynamoDB: Carts service -------------------------------------------------
-# Serverless/on-demand — no capacity planning needed for an exam workload.
+# Schema confirmed directly from the app's source (DynamoItemEntity.java):
+# partition key is "id" (one row per cart item), with a global secondary
+# index on "customerId" for cart lookups — NOT customerId as the table's
+# own partition key, which is what this was originally (incorrectly) built with.
 
 resource "aws_dynamodb_table" "carts" {
   name         = "project-bedrock-carts"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "customerId"
+  hash_key     = "id"
+
+  attribute {
+    name = "id"
+    type = "S"
+  }
 
   attribute {
     name = "customerId"
     type = "S"
+  }
+
+  global_secondary_index {
+    name            = "idx_global_customerId" # exact name the app queries by — confirmed from source
+    hash_key        = "customerId"
+    projection_type = "ALL"
   }
 
   tags = {

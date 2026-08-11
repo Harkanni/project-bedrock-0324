@@ -52,6 +52,13 @@ Thumbs.db
 .idea/
 *.swp
 
+
+# ---------------------------- --------------------------------------------------
+rendered.yaml
+retail-store-sample-chart
+text-file.txt
+terraform.yaml
+
 # --- Explicitly NOT ignored -----------------------------------------------
 # grading.json is a required deliverable — the exam wants it committed
 # to the repo root. Do not add it here even though it's Terraform output.

@@ -34,7 +34,7 @@ resource "aws_iam_role" "carts_service" {
       Action = "sts:AssumeRoleWithWebIdentity"
       Condition = {
         StringEquals = {
-          "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub" = "system:serviceaccount:${local.app_namespace}:carts"
+          "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub" = "system:serviceaccount:${local.app_namespace}:retail-store-carts"
           "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:aud" = "sts.amazonaws.com"
         }
       }
@@ -57,7 +57,14 @@ resource "aws_iam_role_policy" "carts_dynamodb" {
         "dynamodb:DeleteItem",
         "dynamodb:Query",
       ]
-      Resource = aws_dynamodb_table.carts.arn
+      # Table ARN covers direct item lookups by "id"; the /index/* ARN
+      # is required separately — querying a GSI (idx_global_customerId)
+      # is a distinct IAM resource from the base table, confirmed by the
+      # AccessDenied error naming the index ARN specifically.
+      Resource = [
+        aws_dynamodb_table.carts.arn,
+        "${aws_dynamodb_table.carts.arn}/index/*",
+      ]
     }]
   })
 }
@@ -77,7 +84,7 @@ resource "aws_iam_role" "catalog_service" {
       Action = "sts:AssumeRoleWithWebIdentity"
       Condition = {
         StringEquals = {
-          "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub" = "system:serviceaccount:${local.app_namespace}:catalog"
+          "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub" = "system:serviceaccount:${local.app_namespace}:retail-store-catalog"
           "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:aud" = "sts.amazonaws.com"
         }
       }
@@ -114,7 +121,7 @@ resource "aws_iam_role" "orders_service" {
       Action = "sts:AssumeRoleWithWebIdentity"
       Condition = {
         StringEquals = {
-          "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub" = "system:serviceaccount:${local.app_namespace}:orders"
+          "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub" = "system:serviceaccount:${local.app_namespace}:retail-store-orders"
           "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:aud" = "sts.amazonaws.com"
         }
       }

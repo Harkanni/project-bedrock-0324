@@ -25,6 +25,8 @@ output "cluster_name" {
 
 # assets_bucket_name still pending — added once the S3 bucket for
 # the serverless section (4.5) is written.
-# output "assets_bucket_name" {
-#   value = aws_s3_bucket.assets.id
-# }
+
+output "assets_bucket_name" {
+  description = "S3 bucket for product image uploads — one of the 5 required root outputs"
+  value       = aws_s3_bucket.assets.bucket
+}
