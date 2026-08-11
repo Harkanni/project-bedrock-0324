@@ -1,7 +1,7 @@
 # --- GitHub Actions OIDC Provider & IAM Role (Section 4.6) -------------------
 
 # Fetch the current AWS account ID dynamically
-data "aws_caller_identity" "current" {}
+# data "aws_caller_identity" "current" {}
 
 # GitHub OIDC Thumbprint (Global OpenID Connect Root CA)
 # GitHub Actions uses Digicert root CA
