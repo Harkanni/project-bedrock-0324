@@ -9,7 +9,7 @@ resource "kubernetes_ingress_v1" "retail_ui" {
       # IP mode is required for pods on EKS's own VPC CNI (each pod gets
       # a real VPC IP) — "instance" mode would route to node ports
       # instead, which works too but adds an extra network hop.
-      "alb.ingress.kubernetes.io/target-type" = "ip"
+      "alb.ingress.kubernetes.io/target-type"      = "ip"
       "alb.ingress.kubernetes.io/healthcheck-path" = "/actuator/health"
     }
   }

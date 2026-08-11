@@ -97,8 +97,8 @@ resource "aws_s3_bucket_notification" "assets" {
 # Exam note (4.5): "bedrock-dev-view has been granted s3:PutObject on this
 # bucket" — the grader uploads a test file using these credentials.
 resource "aws_iam_user_policy" "bedrock_dev_view_s3_put" {
-  name   = "s3-put-assets-bucket-only"
-  user   = aws_iam_user.bedrock_dev_view.name
+  name = "s3-put-assets-bucket-only"
+  user = aws_iam_user.bedrock_dev_view.name
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
