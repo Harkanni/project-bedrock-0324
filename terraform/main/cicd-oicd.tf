@@ -33,7 +33,10 @@ resource "aws_iam_role" "github_actions_role" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:Harkanni/project-bedrock-0324:*"
+            "token.actions.githubusercontent.com:sub" = [
+              "repo:Harkanni/project-bedrock-0324:ref:refs/heads/main",
+              "repo:Harkanni/project-bedrock-0324:pull_request"
+            ]
           }
         }
       }
