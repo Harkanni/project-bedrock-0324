@@ -57,6 +57,7 @@ Thumbs.db
 rendered.yaml
 retail-store-sample-chart
 text-file.txt
+grading2.json
 # terraform.yaml
 
 # --- Explicitly NOT ignored -----------------------------------------------

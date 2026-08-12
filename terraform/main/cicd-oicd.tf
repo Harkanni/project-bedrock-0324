@@ -68,7 +68,3 @@ resource "aws_eks_access_policy_association" "github_actions_admin" {
   }
 }
 
-output "github_actions_role_arn" {
-  description = "ARN of the IAM Role for GitHub Actions OIDC"
-  value       = aws_iam_role.github_actions_role.arn
-}

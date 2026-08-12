@@ -65,21 +65,3 @@ resource "aws_eks_access_policy_association" "dev_view" {
   }
 }
 
-# --- Outputs for debugging ---
-
-output "bedrock_dev_view_access_key_id" {
-  description = "Access key ID for the bedrock-dev-view IAM user — pair with the secret access key for kubectl/AWS CLI access scoped to retail-app"
-  value       = aws_iam_access_key.bedrock_dev_view.id
-}
-
-output "bedrock_dev_view_secret_access_key" {
-  description = "Secret access key for bedrock-dev-view — SENSITIVE. Record this in the exam's Deliverables doc, never commit it to git."
-  value       = aws_iam_access_key.bedrock_dev_view.secret
-  sensitive   = true
-}
-
-output "bedrock_dev_view_console_password" {
-  description = "Console login password for bedrock-dev-view user"
-  value       = aws_iam_user_login_profile.bedrock_dev_view.password
-  sensitive   = true
-}

@@ -37,7 +37,3 @@ resource "kubernetes_ingress_v1" "retail_ui" {
   depends_on = [helm_release.alb_controller, helm_release.retail_store]
 }
 
-output "ui_ingress_hostname" {
-  description = "ALB hostname for the retail store UI — resolve after a few minutes for DNS propagation"
-  value       = kubernetes_ingress_v1.retail_ui.status[0].load_balancer[0].ingress[0].hostname
-}
