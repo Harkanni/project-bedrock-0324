@@ -1,0 +1,24 @@
+=== CURRENT KUBECTL CONTEXT ===
+arn:aws:eks:us-east-1:969325258559:cluster/project-bedrock-cluster
+
+=== EKS NODES ===
+NAME                           STATUS   ROLES    AGE    VERSION                INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                        KERNEL-VERSION                    CONTAINER-RUNTIME
+ip-10-20-10-98.ec2.internal    Ready    <none>   3d7h   v1.33.13-eks-254016e   10.20.10.98    <none>        Amazon Linux 2023.12.20260727   6.12.94-123.192.amzn2023.x86_64   containerd://2.2.5+unknown
+ip-10-20-11-124.ec2.internal   Ready    <none>   3d7h   v1.33.13-eks-254016e   10.20.11.124   <none>        Amazon Linux 2023.12.20260727   6.12.94-123.192.amzn2023.x86_64   containerd://2.2.5+unknown
+ip-10-20-11-205.ec2.internal   Ready    <none>   3d7h   v1.33.13-eks-254016e   10.20.11.205   <none>        Amazon Linux 2023.12.20260727   6.12.94-123.192.amzn2023.x86_64   containerd://2.2.5+unknown
+
+=== SYSTEM PODS (kube-system) ===
+NAME                                                READY   STATUS    RESTARTS   AGE    IP             NODE                           NOMINATED NODE   READINESS GATES
+aws-load-balancer-controller-58db9684ff-jwgjs       1/1     Running   0          30h    10.20.10.239   ip-10-20-10-98.ec2.internal    <none>           <none>
+aws-load-balancer-controller-58db9684ff-vz9l9       1/1     Running   0          30h    10.20.11.71    ip-10-20-11-205.ec2.internal   <none>           <none>
+aws-node-d686h                                      2/2     Running   0          3d7h   10.20.11.205   ip-10-20-11-205.ec2.internal   <none>           <none>
+aws-node-gmzmc                                      2/2     Running   0          3d7h   10.20.10.98    ip-10-20-10-98.ec2.internal    <none>           <none>
+aws-node-gp8lz                                      2/2     Running   0          3d7h   10.20.11.124   ip-10-20-11-124.ec2.internal   <none>           <none>
+coredns-74b964b7c4-52vcs                            1/1     Running   0          3d7h   10.20.11.177   ip-10-20-11-124.ec2.internal   <none>           <none>
+coredns-74b964b7c4-9tlcn                            1/1     Running   0          3d7h   10.20.11.128   ip-10-20-11-124.ec2.internal   <none>           <none>
+external-secrets-659696857c-6h7p5                   1/1     Running   0          3d7h   10.20.11.175   ip-10-20-11-205.ec2.internal   <none>           <none>
+external-secrets-cert-controller-55c8c7844b-fr9sh   1/1     Running   0          3d7h   10.20.11.34    ip-10-20-11-124.ec2.internal   <none>           <none>
+external-secrets-webhook-64b98f6ff6-h5wbj           1/1     Running   0          3d7h   10.20.10.215   ip-10-20-10-98.ec2.internal    <none>           <none>
+kube-proxy-m4hmm                                    1/1     Running   0          3d7h   10.20.10.98    ip-10-20-10-98.ec2.internal    <none>           <none>
+kube-proxy-s6z79                                    1/1     Running   0          3d7h   10.20.11.205   ip-10-20-11-205.ec2.internal   <none>           <none>
+kube-proxy-wlwm9                                    1/1     Running   0          3d7h   10.20.11.124   ip-10-20-11-124.ec2.internal   <none>           <none>

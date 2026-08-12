@@ -1,0 +1,70 @@
+=== RETAIL-APP WORKLOADS & INGRESS ===
+NAME                                               READY   STATUS    RESTARTS         AGE     IP             NODE                           NOMINATED NODE   READINESS GATES
+pod/retail-store-assets-6df56dff4c-pcfk2           1/1     Running   0                2d23h   10.20.11.247   ip-10-20-11-124.ec2.internal   <none>           <none>
+pod/retail-store-carts-78b59bbd7d-djxp7            1/1     Running   16 (2d22h ago)   2d23h   10.20.10.181   ip-10-20-10-98.ec2.internal    <none>           <none>
+pod/retail-store-catalog-7f56cd7dfb-ns49g          1/1     Running   0                2d23h   10.20.11.77    ip-10-20-11-124.ec2.internal   <none>           <none>
+pod/retail-store-checkout-54fd9456f4-4l8rk         1/1     Running   0                2d23h   10.20.10.61    ip-10-20-10-98.ec2.internal    <none>           <none>
+pod/retail-store-checkout-redis-545d497c9b-9wvcf   1/1     Running   0                2d23h   10.20.11.212   ip-10-20-11-205.ec2.internal   <none>           <none>
+pod/retail-store-orders-5b84748bc9-98ctz           1/1     Running   0                2d23h   10.20.11.250   ip-10-20-11-124.ec2.internal   <none>           <none>
+pod/retail-store-orders-rabbitmq-0                 1/1     Running   0                2d23h   10.20.11.215   ip-10-20-11-205.ec2.internal   <none>           <none>
+pod/retail-store-ui-9df5b7999-q2vmt                1/1     Running   0                9h      10.20.11.192   ip-10-20-11-205.ec2.internal   <none>           <none>
+
+NAME                                   TYPE           CLUSTER-IP       EXTERNAL-IP                                          PORT(S)              AGE     SELECTOR
+service/assets                         ExternalName   <none>           retail-store-assets.retail-app.svc.cluster.local     <none>               10h     <none>
+service/carts                          ExternalName   <none>           retail-store-carts.retail-app.svc.cluster.local      <none>               10h     <none>
+service/catalog                        ExternalName   <none>           retail-store-catalog.retail-app.svc.cluster.local    <none>               10h     <none>
+service/checkout                       ExternalName   <none>           retail-store-checkout.retail-app.svc.cluster.local   <none>               10h     <none>
+service/orders                         ExternalName   <none>           retail-store-orders.retail-app.svc.cluster.local     <none>               10h     <none>
+service/retail-store-assets            ClusterIP      172.20.253.120   <none>                                               80/TCP               2d23h   app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=assets
+service/retail-store-carts             ClusterIP      172.20.191.180   <none>                                               80/TCP               2d23h   app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=carts
+service/retail-store-catalog           ClusterIP      172.20.137.255   <none>                                               80/TCP               2d23h   app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=catalog
+service/retail-store-checkout          ClusterIP      172.20.156.223   <none>                                               80/TCP               2d23h   app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=checkout
+service/retail-store-checkout-redis    ClusterIP      172.20.216.155   <none>                                               6379/TCP             2d23h   app.kubernetes.io/component=redis,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=retail-store-checkout
+service/retail-store-orders            ClusterIP      172.20.211.73    <none>                                               80/TCP               2d23h   app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=orders
+service/retail-store-orders-rabbitmq   ClusterIP      172.20.103.60    <none>                                               5672/TCP,15672/TCP   2d23h   app.kubernetes.io/component=rabbitmq,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=retail-store-orders
+service/retail-store-ui                ClusterIP      172.20.4.250     <none>                                               80/TCP               2d23h   app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=ui
+
+NAME                                          READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES                                                             SELECTOR
+deployment.apps/retail-store-assets           1/1     1            1           2d23h   assets       public.ecr.aws/aws-containers/retail-store-sample-assets:0.8.5     app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=assets
+deployment.apps/retail-store-carts            1/1     1            1           2d23h   carts        public.ecr.aws/aws-containers/retail-store-sample-cart:0.8.5       app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=carts
+deployment.apps/retail-store-catalog          1/1     1            1           2d23h   catalog      public.ecr.aws/aws-containers/retail-store-sample-catalog:0.8.5    app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=catalog
+deployment.apps/retail-store-checkout         1/1     1            1           2d23h   checkout     public.ecr.aws/aws-containers/retail-store-sample-checkout:0.8.5   app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=checkout
+deployment.apps/retail-store-checkout-redis   1/1     1            1           2d23h   redis        redis:6.0-alpine                                                   app.kubernetes.io/component=redis,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=retail-store-checkout
+deployment.apps/retail-store-orders           1/1     1            1           2d23h   orders       public.ecr.aws/aws-containers/retail-store-sample-orders:0.8.5     app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=orders
+deployment.apps/retail-store-ui               1/1     1            1           2d23h   ui           public.ecr.aws/aws-containers/retail-store-sample-ui:0.8.5         app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=ui
+
+NAME                                                     DESIRED   CURRENT   READY   AGE     CONTAINERS   IMAGES                                                             SELECTOR
+replicaset.apps/retail-store-assets-6df56dff4c           1         1         1       2d23h   assets       public.ecr.aws/aws-containers/retail-store-sample-assets:0.8.5     app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=assets,pod-template-hash=6df56dff4c
+replicaset.apps/retail-store-carts-78b59bbd7d            1         1         1       2d23h   carts        public.ecr.aws/aws-containers/retail-store-sample-cart:0.8.5       app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=carts,pod-template-hash=78b59bbd7d
+replicaset.apps/retail-store-catalog-7f56cd7dfb          1         1         1       2d23h   catalog      public.ecr.aws/aws-containers/retail-store-sample-catalog:0.8.5    app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=catalog,pod-template-hash=7f56cd7dfb
+replicaset.apps/retail-store-checkout-54fd9456f4         1         1         1       2d23h   checkout     public.ecr.aws/aws-containers/retail-store-sample-checkout:0.8.5   app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=checkout,pod-template-hash=54fd9456f4
+replicaset.apps/retail-store-checkout-redis-545d497c9b   1         1         1       2d23h   redis        redis:6.0-alpine                                                   app.kubernetes.io/component=redis,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=retail-store-checkout,pod-template-hash=545d497c9b
+replicaset.apps/retail-store-orders-5b84748bc9           1         1         1       2d23h   orders       public.ecr.aws/aws-containers/retail-store-sample-orders:0.8.5     app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=orders,pod-template-hash=5b84748bc9
+replicaset.apps/retail-store-ui-9df5b7999                1         1         1       2d23h   ui           public.ecr.aws/aws-containers/retail-store-sample-ui:0.8.5         app.kuberneres.io/owner=retail-store-sample,app.kubernetes.io/component=service,app.kubernetes.io/instance=retail-store,app.kubernetes.io/name=ui,pod-template-hash=9df5b7999
+
+NAME                                            READY   AGE     CONTAINERS   IMAGES
+statefulset.apps/retail-store-orders-rabbitmq   1/1     2d23h   rabbitmq     public.ecr.aws/docker/library/rabbitmq:3-management
+
+NAME                                        CLASS    HOSTS   ADDRESS                                                                   PORTS   AGE
+ingress.networking.k8s.io/retail-store-ui   <none>   *       k8s-retailap-retailst-1ada82715c-1916669487.us-east-1.elb.amazonaws.com   80      8h
+
+=== INGRESS DETAILED DESCRIBE ===
+Name:             retail-store-ui
+Labels:           <none>
+Namespace:        retail-app
+Address:          k8s-retailap-retailst-1ada82715c-1916669487.us-east-1.elb.amazonaws.com
+Ingress Class:    <none>
+Default backend:  <default>
+Rules:
+  Host        Path  Backends
+  ----        ----  --------
+  *           
+              /*   retail-store-ui:80 (10.20.11.192:8080)
+Annotations:  alb.ingress.kubernetes.io/actions.ssl-redirect:
+                {"Type": "redirect", "RedirectConfig": {"Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}
+              alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:969325258559:certificate/f3c67e94-0bd8-4724-9c6d-9c24c97f456e
+              alb.ingress.kubernetes.io/listen-ports: [{"HTTP": 80}, {"HTTPS": 443}]
+              alb.ingress.kubernetes.io/scheme: internet-facing
+              alb.ingress.kubernetes.io/target-type: ip
+              kubernetes.io/ingress.class: alb
+Events:       <none>

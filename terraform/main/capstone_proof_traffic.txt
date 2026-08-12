@@ -1,0 +1,28 @@
+=== LIVE METADATA ===
+ALB DNS: k8s-retailap-retailst-1ada82715c-1916669487.us-east-1.elb.amazonaws.com
+ALB IP:  44.205.183.114
+
+=== TESTING HTTPS (443) DIRECT ===
+HTTP/1.1 200 OK
+Date: Wed, 12 Aug 2026 15:16:34 GMT
+Content-Type: text/html
+Connection: keep-alive
+Content-Language: en-US
+set-cookie: SESSIONID=33b7ecff-33f6-4bce-b22e-673f0c58cffd
+
+
+=== TESTING HTTP (80) DIRECT ===
+HTTP/1.1 200 OK
+Date: Wed, 12 Aug 2026 15:16:35 GMT
+Content-Type: text/html
+Connection: keep-alive
+Content-Language: en-US
+set-cookie: SESSIONID=6b5f239d-ba9d-4bab-b7f9-405515f07849
+
+
+=== TESTING AWS TARGET GROUP HEALTH ===
+-------------------------------------
+|       DescribeTargetHealth        |
++---------------+-------+-----------+
+|  10.20.11.192 |  8080 |  healthy  |
++---------------+-------+-----------+

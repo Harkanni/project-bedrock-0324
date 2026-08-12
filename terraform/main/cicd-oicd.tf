@@ -11,7 +11,7 @@ resource "aws_iam_openid_connect_provider" "github_actions" {
   thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1", "1c3dd1fc5e817fe75c500540315c25b3e6e100a3"]
 
   tags = {
-    Name = "github-actions-oidc-provider"
+    Name = "project-bedrock-github-actions-oidc-provider"
   }
 }
 

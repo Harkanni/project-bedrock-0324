@@ -33,7 +33,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Project = "tinyuka-2025-capstone"
+      Project = "project-bedrock-capstone"
     }
   }
 }

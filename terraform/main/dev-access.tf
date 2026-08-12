@@ -9,7 +9,7 @@ resource "aws_iam_user" "bedrock_dev_view" {
   name = "bedrock-dev-view"
 
   tags = {
-    Name = "bedrock-dev-view"
+    Name = "project-bedrock-dev-view"
   }
 }
 

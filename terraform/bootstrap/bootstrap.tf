@@ -38,10 +38,10 @@ resource "aws_s3_bucket" "tf_state" {
   }
 
   tags = {
-    Project = "tinyuka-2025-capstone"
-    Purpose = "terraform-remote-state"
-    "key" = "terraform-remote-state"
-    
+    Project = "project-bedrock-tinyuka-2026-capstone"
+    Purpose = "project-bedrock-tinyuka-2026-terraform-remote-state"
+    "key"   = "project-bedrock-tinyuka-2026-terraform-remote-state"
+
   }
 }
 
