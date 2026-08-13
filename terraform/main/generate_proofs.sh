@@ -49,7 +49,7 @@ ALB_DNS=$(kubectl get ingress retail-store-ui -n retail-app -o jsonpath='{.statu
 
 # Resolve ALB Public IP (Git Bash/MinGW & Linux compatible)
 ALB_IP=$(nslookup "$ALB_DNS" | tr -d '\r' | awk '/Addresses:/ {getline; print $1}')
-
+ 
 {
   echo "=== LIVE METADATA ==="
   echo "ALB DNS: $ALB_DNS"
