@@ -58,6 +58,8 @@ rendered.yaml
 retail-store-sample-chart
 text-file.txt
 grading2.json
+generate_proofs.sh
+
 # terraform.yaml
 
 # --- Explicitly NOT ignored -----------------------------------------------
