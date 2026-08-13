@@ -3,6 +3,8 @@ kind: NetworkPolicy
 metadata:
   name: allow-ui-to-backends
   namespace: retail-app
+  annotations:
+    alb.ingress.kubernetes.io/tags: Project=tinyuka-2025-capstone
 spec:
   podSelector:
     matchLabels:
