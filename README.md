@@ -16,7 +16,7 @@ The project enforces automated multi-AZ networking, secret management, continuou
 
 - **Project Tag:** `Project: tinyuka-2025-capstone`
 - **Target AWS Region:** `us-east-1`
-- **Live Application URL:** [https://store.44.205.183.114.nip.io](https://store.44.205.183.114.nip.io)
+- **Live Application URL:** [https://store.54.91.203.88.nip.io](https://store.54.91.203.88.nip.io)
 
 ---
 
