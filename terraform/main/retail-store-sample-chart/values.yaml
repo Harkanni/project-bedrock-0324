@@ -1,0 +1,56 @@
+assets: {}
+
+carts:
+  persistence: dynamodb
+
+  dynamodb:
+    tableName: project-bedrock-carts
+    createTable: false
+    create: false
+
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::969325258559:role/project-bedrock-carts-service-role
+
+catalog:
+  mysql:
+    create: false
+    endpoint: project-bedrock-catalog-mysql.cwbmiwk2i4r8.us-east-1.rds.amazonaws.com
+    database: catalog
+    secret:
+      create: false
+      name: catalog-db
+
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::969325258559:role/project-bedrock-catalog-service-role
+
+checkout:
+  endpoints:
+    orders: http://orders:80
+
+orders:
+  postgresql:
+    create: false
+    database: orders
+    endpoint:
+      host: project-bedrock-orders-postgres.cwbmiwk2i4r8.us-east-1.rds.amazonaws.com
+      port: "5432"
+    secret:
+      create: false
+      name: orders-db
+
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::969325258559:role/project-bedrock-orders-service-role
+
+ui:
+  endpoints:
+    assets: http://retail-store-assets:80
+    carts: http://retail-store-carts:80
+    catalog: http://retail-store-catalog:80
+    checkout: http://retail-store-checkout:80
+    orders: http://retail-store-orders:80
+
+  service:
+    type: ClusterIP

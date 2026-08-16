@@ -1,0 +1,1644 @@
+Release "retail-store" has been upgraded. Happy Helming!
+NAME: retail-store
+LAST DEPLOYED: Sun Aug 16 20:14:00 2026
+NAMESPACE: retail-app
+STATUS: pending-upgrade
+REVISION: 4
+DESCRIPTION: Dry run complete
+USER-SUPPLIED VALUES:
+assets: {}
+carts:
+  dynamodb:
+    create: false
+    createTable: false
+    tableName: project-bedrock-carts
+  persistence: dynamodb
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::969325258559:role/project-bedrock-carts-service-role
+catalog:
+  mysql:
+    create: false
+    database: catalog
+    endpoint: project-bedrock-catalog-mysql.cwbmiwk2i4r8.us-east-1.rds.amazonaws.com
+    secret:
+      create: false
+      name: catalog-db
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::969325258559:role/project-bedrock-catalog-service-role
+checkout:
+  endpoints:
+    orders: http://orders:80
+orders:
+  postgresql:
+    create: false
+    database: orders
+    endpoint:
+      host: project-bedrock-orders-postgres.cwbmiwk2i4r8.us-east-1.rds.amazonaws.com
+      port: "5432"
+    secret:
+      create: false
+      name: orders-db
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::969325258559:role/project-bedrock-orders-service-role
+ui:
+  endpoints:
+    assets: http://retail-store-assets:80
+    carts: http://retail-store-carts:80
+    catalog: http://retail-store-catalog:80
+    checkout: http://retail-store-checkout:80
+    orders: http://retail-store-orders:80
+  service:
+    type: ClusterIP
+
+COMPUTED VALUES:
+assets:
+  affinity: {}
+  autoscaling:
+    enabled: false
+    maxReplicas: 10
+    minReplicas: 1
+    targetCPUUtilizationPercentage: 80
+  configMap:
+    create: true
+    name: null
+  fullnameOverride: ""
+  global: {}
+  image:
+    pullPolicy: IfNotPresent
+    repository: public.ecr.aws/aws-containers/retail-store-sample-assets
+    tag: 0.8.5
+  imagePullSecrets: []
+  metrics:
+    enabled: false
+    podAnnotations:
+      prometheus.io/path: /metrics
+      prometheus.io/port: "8080"
+      prometheus.io/scrape: "true"
+  nameOverride: ""
+  nodeSelector: {}
+  opentelemetry:
+    enabled: false
+    instrumentation: ""
+  podAnnotations: {}
+  podDisruptionBudget:
+    enabled: false
+    maxUnavailable: 1
+    minAvailable: 2
+  podSecurityContext: {}
+  replicaCount: 1
+  resources:
+    limits:
+      memory: 128Mi
+    requests:
+      cpu: 128m
+      memory: 128Mi
+  securityContext:
+    capabilities:
+      drop:
+      - ALL
+    readOnlyRootFilesystem: false
+  service:
+    port: 80
+    type: ClusterIP
+  serviceAccount:
+    annotations: {}
+    create: true
+    name: ""
+  tolerations: []
+  topologySpreadConstraints: []
+carts:
+  affinity: {}
+  autoscaling:
+    enabled: false
+    maxReplicas: 10
+    minReplicas: 1
+    targetCPUUtilizationPercentage: 80
+  configMap:
+    create: true
+    name: null
+  dynamodb:
+    affinity: {}
+    create: false
+    createTable: false
+    image:
+      pullPolicy: IfNotPresent
+      repository: amazon/dynamodb-local
+      tag: 1.20.0
+    nodeSelector: {}
+    podAnnotations: {}
+    service:
+      port: 8000
+      type: ClusterIP
+    tableName: project-bedrock-carts
+    tolerations: []
+  fullnameOverride: ""
+  global: {}
+  image:
+    pullPolicy: IfNotPresent
+    repository: public.ecr.aws/aws-containers/retail-store-sample-cart
+    tag: 0.8.5
+  imagePullSecrets: []
+  metrics:
+    enabled: true
+    podAnnotations:
+      prometheus.io/path: /actuator/prometheus
+      prometheus.io/port: "8080"
+      prometheus.io/scrape: "true"
+  nameOverride: ""
+  nodeSelector: {}
+  opentelemetry:
+    enabled: false
+    instrumentation: ""
+  persistence: dynamodb
+  podAnnotations: {}
+  podDisruptionBudget:
+    enabled: false
+    maxUnavailable: 1
+    minAvailable: 2
+  podSecurityContext:
+    fsGroup: 1000
+  replicaCount: 1
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 128m
+      memory: 512Mi
+  securityContext:
+    capabilities:
+      drop:
+      - ALL
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 1000
+  service:
+    port: 80
+    type: ClusterIP
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::969325258559:role/project-bedrock-carts-service-role
+    create: true
+    name: ""
+  tolerations: []
+  topologySpreadConstraints: []
+catalog:
+  affinity: {}
+  autoscaling:
+    enabled: false
+    maxReplicas: 10
+    minReplicas: 1
+    targetCPUUtilizationPercentage: 80
+  configMap:
+    create: true
+    name: null
+  fullnameOverride: ""
+  global: {}
+  image:
+    pullPolicy: IfNotPresent
+    repository: public.ecr.aws/aws-containers/retail-store-sample-catalog
+    tag: 0.8.5
+  imagePullSecrets: []
+  metrics:
+    enabled: true
+    podAnnotations:
+      prometheus.io/path: /metrics
+      prometheus.io/port: "8080"
+      prometheus.io/scrape: "true"
+  mysql:
+    affinity: {}
+    create: false
+    database: catalog
+    endpoint: project-bedrock-catalog-mysql.cwbmiwk2i4r8.us-east-1.rds.amazonaws.com
+    image:
+      pullPolicy: IfNotPresent
+      repository: public.ecr.aws/docker/library/mysql
+      tag: "8.0"
+    nodeSelector: {}
+    persistentVolume:
+      accessModes:
+      - ReadWriteOnce
+      annotations: {}
+      enabled: false
+      labels: {}
+      size: 10Gi
+      storageClass: ""
+    podAnnotations: {}
+    reader:
+      endpoint: ""
+    secret:
+      create: false
+      name: catalog-db
+      password: ""
+      username: catalog
+    service:
+      port: 3306
+      type: ClusterIP
+    tolerations: []
+  nameOverride: ""
+  nodeSelector: {}
+  opentelemetry:
+    enabled: false
+    instrumentation: ""
+  podAnnotations: {}
+  podDisruptionBudget:
+    enabled: false
+    maxUnavailable: 1
+    minAvailable: 2
+  podSecurityContext:
+    fsGroup: 1000
+  replicaCount: 1
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 128m
+      memory: 256Mi
+  securityContext:
+    capabilities:
+      drop:
+      - ALL
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 1000
+  securityGroups:
+    create: false
+    securityGroupIds: []
+  service:
+    port: 80
+    type: ClusterIP
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::969325258559:role/project-bedrock-catalog-service-role
+    create: true
+    name: ""
+  tolerations: []
+  topologySpreadConstraints: []
+checkout:
+  affinity: {}
+  autoscaling:
+    enabled: false
+    maxReplicas: 10
+    minReplicas: 1
+    targetCPUUtilizationPercentage: 80
+  configMap:
+    create: true
+    name: null
+  endpoints:
+    orders: http://orders:80
+  fullnameOverride: ""
+  global: {}
+  image:
+    pullPolicy: IfNotPresent
+    repository: public.ecr.aws/aws-containers/retail-store-sample-checkout
+    tag: 0.8.5
+  imagePullSecrets: []
+  metrics:
+    enabled: true
+    podAnnotations:
+      prometheus.io/path: /metrics
+      prometheus.io/port: "8080"
+      prometheus.io/scrape: "true"
+  nameOverride: ""
+  nodeSelector: {}
+  opentelemetry:
+    enabled: false
+    instrumentation: ""
+  podAnnotations: {}
+  podDisruptionBudget:
+    enabled: false
+    maxUnavailable: 1
+    minAvailable: 2
+  podSecurityContext:
+    fsGroup: 1000
+  redis:
+    address: redis
+    affinity: {}
+    create: true
+    image:
+      pullPolicy: IfNotPresent
+      repository: redis
+      tag: 6.0-alpine
+    nodeSelector: {}
+    podAnnotations: {}
+    port: 6379
+    service:
+      port: 6379
+      type: ClusterIP
+    tolerations: []
+  replicaCount: 1
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 128m
+      memory: 256Mi
+  securityContext:
+    capabilities:
+      drop:
+      - ALL
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 1000
+  securityGroups:
+    create: false
+    securityGroupIds: []
+  service:
+    port: 80
+    type: ClusterIP
+  serviceAccount:
+    annotations: {}
+    create: true
+    name: ""
+  tolerations: []
+  topologySpreadConstraints: []
+orders:
+  affinity: {}
+  autoscaling:
+    enabled: false
+    maxReplicas: 10
+    minReplicas: 1
+    targetCPUUtilizationPercentage: 80
+  configMap:
+    create: true
+    name: null
+  fullnameOverride: ""
+  global: {}
+  image:
+    pullPolicy: IfNotPresent
+    repository: public.ecr.aws/aws-containers/retail-store-sample-orders
+    tag: 0.8.5
+  imagePullSecrets: []
+  metrics:
+    enabled: true
+    podAnnotations:
+      prometheus.io/path: /actuator/prometheus
+      prometheus.io/port: "8080"
+      prometheus.io/scrape: "true"
+  nameOverride: ""
+  nodeSelector: {}
+  opentelemetry:
+    enabled: false
+    instrumentation: ""
+  podAnnotations: {}
+  podDisruptionBudget:
+    enabled: false
+    maxUnavailable: 1
+    minAvailable: 2
+  podSecurityContext:
+    fsGroup: 1000
+  postgresql:
+    affinity: {}
+    create: false
+    database: orders
+    endpoint:
+      host: project-bedrock-orders-postgres.cwbmiwk2i4r8.us-east-1.rds.amazonaws.com
+      port: "5432"
+    image:
+      pullPolicy: IfNotPresent
+      repository: public.ecr.aws/docker/library/postgres
+      tag: "16.1"
+    nodeSelector: {}
+    persistentVolume:
+      accessModes:
+      - ReadWriteOnce
+      annotations: {}
+      enabled: false
+      labels: {}
+      size: 10Gi
+    podAnnotations: {}
+    reader:
+      endpoint: ""
+      secret:
+        create: false
+        name: orders-db
+        password: ""
+        username: orders
+    secret:
+      create: false
+      name: orders-db
+      password: ""
+      username: orders
+    service:
+      port: 5432
+      type: ClusterIP
+    tolerations: []
+  rabbitmq:
+    address: ""
+    affinity: {}
+    create: true
+    image:
+      pullPolicy: IfNotPresent
+      repository: public.ecr.aws/docker/library/rabbitmq
+      tag: 3-management
+    nodeSelector: {}
+    persistentVolume:
+      accessModes:
+      - ReadWriteOnce
+      annotations: {}
+      enabled: false
+      labels: {}
+      size: 10Gi
+    podAnnotations: {}
+    secret:
+      create: true
+      name: orders-rabbitmq
+      password: ""
+      username: ""
+    service:
+      amqp:
+        port: 5672
+      http:
+        port: 15672
+      type: ClusterIP
+    tolerations: []
+  replicaCount: 1
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 128m
+      memory: 512Mi
+  securityContext:
+    capabilities:
+      drop:
+      - ALL
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 1000
+  securityGroups:
+    create: false
+    securityGroupIds: []
+  service:
+    port: 80
+    type: ClusterIP
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::969325258559:role/project-bedrock-orders-service-role
+    create: true
+    name: ""
+  tolerations: []
+  topologySpreadConstraints: []
+ui:
+  affinity: {}
+  autoscaling:
+    enabled: false
+    maxReplicas: 10
+    minReplicas: 1
+    targetCPUUtilizationPercentage: 50
+  configMap:
+    create: true
+    name: null
+  endpoints:
+    assets: http://retail-store-assets:80
+    carts: http://retail-store-carts:80
+    catalog: http://retail-store-catalog:80
+    checkout: http://retail-store-checkout:80
+    orders: http://retail-store-orders:80
+  fullnameOverride: ""
+  global: {}
+  image:
+    pullPolicy: IfNotPresent
+    repository: public.ecr.aws/aws-containers/retail-store-sample-ui
+    tag: 0.8.5
+  imagePullSecrets: []
+  ingress:
+    annotations: {}
+    enabled: false
+    hosts: []
+    tls: []
+  ingresses: []
+  istio:
+    enabled: false
+    hosts: []
+  metrics:
+    enabled: true
+    podAnnotations:
+      prometheus.io/path: /actuator/prometheus
+      prometheus.io/port: "8080"
+      prometheus.io/scrape: "true"
+  nameOverride: ""
+  nodeSelector: {}
+  opentelemetry:
+    enabled: false
+    instrumentation: ""
+  podAnnotations: {}
+  podDisruptionBudget:
+    enabled: false
+    maxUnavailable: 1
+    minAvailable: 2
+  podSecurityContext:
+    fsGroup: 1000
+  replicaCount: 1
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 128m
+      memory: 512Mi
+  securityContext:
+    capabilities:
+      add:
+      - NET_BIND_SERVICE
+      drop:
+      - ALL
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 1000
+  service:
+    port: 80
+    type: ClusterIP
+  serviceAccount:
+    annotations: {}
+    create: true
+    name: ""
+  tolerations: []
+  topologySpreadConstraints: []
+
+HOOKS:
+---
+# Source: retail-store-sample-chart/charts/assets/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "retail-store-assets-test-connection"
+  labels:
+    helm.sh/chart: assets-0.8.5
+    app.kubernetes.io/name: assets
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['retail-store-assets:80/health.html']
+  restartPolicy: Never
+
+---
+# Source: retail-store-sample-chart/charts/carts/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "retail-store-carts-test-connection"
+  labels:
+    helm.sh/chart: carts-0.8.5
+    app.kubernetes.io/name: carts
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['retail-store-carts:80/actuator/health/liveness']
+  restartPolicy: Never
+
+---
+# Source: retail-store-sample-chart/charts/catalog/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "retail-store-catalog-test-connection"
+  labels:
+    helm.sh/chart: catalog-0.8.5
+    app.kubernetes.io/name: catalog
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['retail-store-catalog:80/health']
+  restartPolicy: Never
+
+---
+# Source: retail-store-sample-chart/charts/checkout/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "retail-store-checkout-test-connection"
+  labels:
+    helm.sh/chart: checkout-0.8.5
+    app.kubernetes.io/name: checkout
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['retail-store-checkout:80/health']
+  restartPolicy: Never
+
+---
+# Source: retail-store-sample-chart/charts/orders/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "retail-store-orders-test-connection"
+  labels:
+    helm.sh/chart: orders-0.8.5
+    app.kubernetes.io/name: orders
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['retail-store-orders:80/actuator/health/liveness']
+  restartPolicy: Never
+
+---
+# Source: retail-store-sample-chart/charts/ui/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "retail-store-ui-test-connection"
+  labels:
+    helm.sh/chart: ui-0.8.5
+    app.kubernetes.io/name: ui
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['retail-store-ui:80/actuator/health/liveness']
+  restartPolicy: Never
+
+MANIFEST:
+---
+# Source: retail-store-sample-chart/charts/assets/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: retail-store-assets
+  labels:
+    helm.sh/chart: assets-0.8.5
+    app.kubernetes.io/name: assets
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+
+---
+# Source: retail-store-sample-chart/charts/carts/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: retail-store-carts
+  labels:
+    helm.sh/chart: carts-0.8.5
+    app.kubernetes.io/name: carts
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::969325258559:role/project-bedrock-carts-service-role
+
+---
+# Source: retail-store-sample-chart/charts/catalog/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: retail-store-catalog
+  labels:
+    helm.sh/chart: catalog-0.8.5
+    app.kubernetes.io/name: catalog
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::969325258559:role/project-bedrock-catalog-service-role
+
+---
+# Source: retail-store-sample-chart/charts/checkout/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: retail-store-checkout
+  labels:
+    helm.sh/chart: checkout-0.8.5
+    app.kubernetes.io/name: checkout
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+
+---
+# Source: retail-store-sample-chart/charts/orders/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: retail-store-orders
+  labels:
+    helm.sh/chart: orders-0.8.5
+    app.kubernetes.io/name: orders
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::969325258559:role/project-bedrock-orders-service-role
+
+---
+# Source: retail-store-sample-chart/charts/ui/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: retail-store-ui
+  labels:
+    helm.sh/chart: ui-0.8.5
+    app.kubernetes.io/name: ui
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+
+---
+# Source: retail-store-sample-chart/charts/orders/templates/rabbitmq-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: orders-rabbitmq
+data:
+---
+# Source: retail-store-sample-chart/charts/assets/templates/configmap.yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: retail-store-assets
+data:
+  PORT: '8080'
+
+---
+# Source: retail-store-sample-chart/charts/carts/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: retail-store-carts
+data:
+  SPRING_PROFILES_ACTIVE: dynamodb
+  CARTS_DYNAMODB_TABLENAME: project-bedrock-carts
+  CARTS_DYNAMODB_CREATETABLE: "false"
+
+---
+# Source: retail-store-sample-chart/charts/catalog/templates/configmap.yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: retail-store-catalog
+data:
+  DB_ENDPOINT: project-bedrock-catalog-mysql.cwbmiwk2i4r8.us-east-1.rds.amazonaws.com
+  DB_READ_ENDPOINT: project-bedrock-catalog-mysql.cwbmiwk2i4r8.us-east-1.rds.amazonaws.com
+  DB_NAME: catalog
+
+---
+# Source: retail-store-sample-chart/charts/checkout/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: retail-store-checkout
+data:
+  REDIS_URL: redis://retail-store-checkout-redis:6379
+  ENDPOINTS_ORDERS: http://orders:80
+
+---
+# Source: retail-store-sample-chart/charts/orders/templates/configmap.yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: retail-store-orders
+data:
+  RETAIL_ORDERS_MESSAGING_PROVIDER: rabbitmq
+  SPRING_DATASOURCE_URL: jdbc:postgresql://project-bedrock-orders-postgres.cwbmiwk2i4r8.us-east-1.rds.amazonaws.com:5432/orders
+  SPRING_RABBITMQ_ADDRESSES: amqp://retail-store-orders-rabbitmq:5672
+
+---
+# Source: retail-store-sample-chart/charts/ui/templates/configmap.yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: retail-store-ui
+data:
+  
+  ENDPOINTS_CATALOG: http://retail-store-catalog:80
+  ENDPOINTS_CARTS: http://retail-store-carts:80
+  ENDPOINTS_CHECKOUT: http://retail-store-checkout:80
+  ENDPOINTS_ORDERS: http://retail-store-orders:80
+  ENDPOINTS_ASSETS: http://retail-store-assets:80
+
+---
+# Source: retail-store-sample-chart/charts/assets/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: retail-store-assets
+  labels:
+    helm.sh/chart: assets-0.8.5
+    app.kubernetes.io/name: assets
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: assets
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+
+---
+# Source: retail-store-sample-chart/charts/carts/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: retail-store-carts
+  labels:
+    helm.sh/chart: carts-0.8.5
+    app.kubernetes.io/name: carts
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: carts
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+
+---
+# Source: retail-store-sample-chart/charts/catalog/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: retail-store-catalog
+  labels:
+    helm.sh/chart: catalog-0.8.5
+    app.kubernetes.io/name: catalog
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: catalog
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+
+---
+# Source: retail-store-sample-chart/charts/checkout/templates/redis-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: retail-store-checkout-redis
+  labels:
+    helm.sh/chart: checkout-0.8.5
+    app.kubernetes.io/name: retail-store-checkout
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: redis
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6379
+      targetPort: redis
+      protocol: TCP
+      name: redis
+  selector:
+    app.kubernetes.io/name: retail-store-checkout
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: redis
+---
+# Source: retail-store-sample-chart/charts/checkout/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: retail-store-checkout
+  labels:
+    helm.sh/chart: checkout-0.8.5
+    app.kubernetes.io/name: checkout
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: checkout
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+
+---
+# Source: retail-store-sample-chart/charts/orders/templates/rabbitmq-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: retail-store-orders-rabbitmq
+  labels:
+    helm.sh/chart: orders-0.8.5
+    app.kubernetes.io/name: retail-store-orders
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: rabbitmq
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5672
+      targetPort: amqp
+      protocol: TCP
+      name: amqp
+    - port: 15672
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: retail-store-orders
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: rabbitmq
+---
+# Source: retail-store-sample-chart/charts/orders/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: retail-store-orders
+  labels:
+    helm.sh/chart: orders-0.8.5
+    app.kubernetes.io/name: orders
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: orders
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+
+---
+# Source: retail-store-sample-chart/charts/ui/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: retail-store-ui
+  labels:
+    helm.sh/chart: ui-0.8.5
+    app.kubernetes.io/name: ui
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: ui
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+---
+# Source: retail-store-sample-chart/charts/assets/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retail-store-assets
+  labels:
+    helm.sh/chart: assets-0.8.5
+    app.kubernetes.io/name: assets
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: assets
+      app.kubernetes.io/instance: retail-store
+      app.kubernetes.io/component: service
+      app.kuberneres.io/owner: retail-store-sample
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: assets
+        app.kubernetes.io/instance: retail-store
+        app.kubernetes.io/component: service
+        app.kuberneres.io/owner: retail-store-sample
+    spec:
+      serviceAccountName: retail-store-assets
+      securityContext:
+        {}
+      containers:
+        - name: assets
+          envFrom:
+            - configMapRef:
+                name: retail-store-assets
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+          image: "public.ecr.aws/aws-containers/retail-store-sample-assets:0.8.5"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health.html
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 3
+          resources:
+            limits:
+              memory: 128Mi
+            requests:
+              cpu: 128m
+              memory: 128Mi
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-volume
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+
+---
+# Source: retail-store-sample-chart/charts/carts/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retail-store-carts
+  labels:
+    helm.sh/chart: carts-0.8.5
+    app.kubernetes.io/name: carts
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: carts
+      app.kubernetes.io/instance: retail-store
+      app.kubernetes.io/component: service
+      app.kuberneres.io/owner: retail-store-sample
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
+      labels:
+        app.kubernetes.io/name: carts
+        app.kubernetes.io/instance: retail-store
+        app.kubernetes.io/component: service
+        app.kuberneres.io/owner: retail-store-sample
+    spec:
+      serviceAccountName: retail-store-carts
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: carts
+          env:
+            - name: JAVA_OPTS
+              value: -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/urandom
+          envFrom:
+            - configMapRef:
+                name: retail-store-carts
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "public.ecr.aws/aws-containers/retail-store-sample-cart:0.8.5"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 45
+            periodSeconds: 3
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 128m
+              memory: 512Mi
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-volume
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+
+---
+# Source: retail-store-sample-chart/charts/catalog/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retail-store-catalog
+  labels:
+    helm.sh/chart: catalog-0.8.5
+    app.kubernetes.io/name: catalog
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: catalog
+      app.kubernetes.io/instance: retail-store
+      app.kubernetes.io/component: service
+      app.kuberneres.io/owner: retail-store-sample
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
+      labels:
+        app.kubernetes.io/name: catalog
+        app.kubernetes.io/instance: retail-store
+        app.kubernetes.io/component: service
+        app.kuberneres.io/owner: retail-store-sample
+    spec:
+      serviceAccountName: retail-store-catalog
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: catalog
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: catalog-db
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: catalog-db
+                  key: password
+          envFrom:
+            - configMapRef:
+                name: retail-store-catalog
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "public.ecr.aws/aws-containers/retail-store-sample-catalog:0.8.5"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 3
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              cpu: 128m
+              memory: 256Mi
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-volume
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+
+---
+# Source: retail-store-sample-chart/charts/checkout/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retail-store-checkout
+  labels:
+    helm.sh/chart: checkout-0.8.5
+    app.kubernetes.io/name: checkout
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: checkout
+      app.kubernetes.io/instance: retail-store
+      app.kubernetes.io/component: service
+      app.kuberneres.io/owner: retail-store-sample
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
+      labels:
+        app.kubernetes.io/name: checkout
+        app.kubernetes.io/instance: retail-store
+        app.kubernetes.io/component: service
+        app.kuberneres.io/owner: retail-store-sample
+    spec:
+      serviceAccountName: retail-store-checkout
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: checkout
+          envFrom:
+            - configMapRef:
+                name: retail-store-checkout
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "public.ecr.aws/aws-containers/retail-store-sample-checkout:0.8.5"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 3
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              cpu: 128m
+              memory: 256Mi
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-volume
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+
+---
+# Source: retail-store-sample-chart/charts/checkout/templates/redis-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retail-store-checkout-redis
+  labels:
+    helm.sh/chart: checkout-0.8.5
+    app.kubernetes.io/name: retail-store-checkout
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: redis
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: retail-store-checkout
+      app.kubernetes.io/instance: retail-store
+      app.kubernetes.io/component: redis
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: retail-store-checkout
+        app.kubernetes.io/instance: retail-store
+        app.kubernetes.io/component: redis
+    spec:
+      containers:
+        - name: redis
+          image: "redis:6.0-alpine"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: redis
+              containerPort: 6379
+              protocol: TCP
+
+---
+# Source: retail-store-sample-chart/charts/orders/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retail-store-orders
+  labels:
+    helm.sh/chart: orders-0.8.5
+    app.kubernetes.io/name: orders
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: orders
+      app.kubernetes.io/instance: retail-store
+      app.kubernetes.io/component: service
+      app.kuberneres.io/owner: retail-store-sample
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
+      labels:
+        app.kubernetes.io/name: orders
+        app.kubernetes.io/instance: retail-store
+        app.kubernetes.io/component: service
+        app.kuberneres.io/owner: retail-store-sample
+    spec:
+      serviceAccountName: retail-store-orders
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: orders
+          env:
+            - name: JAVA_OPTS
+              value: -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/urandom
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: orders-db
+                  key: username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: orders-db
+                  key: password
+          envFrom:
+            - secretRef:
+                name: orders-rabbitmq
+            - configMapRef:
+                name: retail-store-orders
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "public.ecr.aws/aws-containers/retail-store-sample-orders:0.8.5"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 45
+            periodSeconds: 3
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 128m
+              memory: 512Mi
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-volume
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+
+---
+# Source: retail-store-sample-chart/charts/ui/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retail-store-ui
+  labels:
+    helm.sh/chart: ui-0.8.5
+    app.kubernetes.io/name: ui
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: service
+    app.kuberneres.io/owner: retail-store-sample
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ui
+      app.kubernetes.io/instance: retail-store
+      app.kubernetes.io/component: service
+      app.kuberneres.io/owner: retail-store-sample
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
+      labels:
+        app.kubernetes.io/name: ui
+        app.kubernetes.io/instance: retail-store
+        app.kubernetes.io/component: service
+        app.kuberneres.io/owner: retail-store-sample
+    spec:
+      serviceAccountName: retail-store-ui
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: ui
+          env:
+            - name: JAVA_OPTS
+              value: -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/urandom
+          envFrom:
+            - configMapRef:
+                name: retail-store-ui
+          securityContext:
+            capabilities:
+              add:
+              - NET_BIND_SERVICE
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "public.ecr.aws/aws-containers/retail-store-sample-ui:0.8.5"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 45
+            periodSeconds: 3
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 128m
+              memory: 512Mi
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-volume
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+
+---
+# Source: retail-store-sample-chart/charts/orders/templates/rabbitmq-statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: retail-store-orders-rabbitmq
+  labels:
+    helm.sh/chart: orders-0.8.5
+    app.kubernetes.io/name: retail-store-orders
+    app.kubernetes.io/instance: retail-store
+    app.kubernetes.io/component: rabbitmq
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  serviceName: retail-store-orders-rabbitmq
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: retail-store-orders
+      app.kubernetes.io/instance: retail-store
+      app.kubernetes.io/component: rabbitmq
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: retail-store-orders
+        app.kubernetes.io/instance: retail-store
+        app.kubernetes.io/component: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: "public.ecr.aws/docker/library/rabbitmq:3-management"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - name: amqp
+            containerPort: 5672
+            protocol: TCP
+          - name: http
+            containerPort: 15672
+            protocol: TCP
+          volumeMounts:
+          - name: data
+            mountPath: "/var/lib/rabbitmq/mnesia"
+      volumes:
+      - name: data
+        emptyDir: {}
+
+
