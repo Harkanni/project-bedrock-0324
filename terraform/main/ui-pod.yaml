@@ -1,0 +1,650 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cloudwatch.aws.amazon.com/auto-annotate-dotnet: "true"
+      cloudwatch.aws.amazon.com/auto-annotate-java: "true"
+      cloudwatch.aws.amazon.com/auto-annotate-nodejs: "true"
+      cloudwatch.aws.amazon.com/auto-annotate-python: "true"
+      instrumentation.opentelemetry.io/inject-dotnet: "true"
+      instrumentation.opentelemetry.io/inject-java: "true"
+      instrumentation.opentelemetry.io/inject-nodejs: "true"
+      instrumentation.opentelemetry.io/inject-python: "true"
+      prometheus.io/path: /actuator/prometheus
+      prometheus.io/port: "8080"
+      prometheus.io/scrape: "true"
+    creationTimestamp: "2026-08-16T10:29:12Z"
+    generateName: retail-store-ui-6fbdf76cf-
+    generation: 1
+    labels:
+      app.kuberneres.io/owner: retail-store-sample
+      app.kubernetes.io/component: service
+      app.kubernetes.io/instance: retail-store
+      app.kubernetes.io/name: ui
+      pod-template-hash: 6fbdf76cf
+    name: retail-store-ui-6fbdf76cf-59hzt
+    namespace: retail-app
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: retail-store-ui-6fbdf76cf
+      uid: 9c46aae7-22f5-445e-bffe-5c4f2e0a4f0d
+    resourceVersion: "321237"
+    uid: 1d69a529-f602-4448-ae28-a1ffb5aca7de
+  spec:
+    containers:
+    - env:
+      - name: JAVA_OPTS
+        value: -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/urandom
+      - name: OTEL_EXPORTER_OTLP_PROTOCOL
+        value: http/protobuf
+      - name: OTEL_METRICS_EXPORTER
+        value: none
+      - name: OTEL_LOGS_EXPORTER
+        value: none
+      - name: OTEL_AWS_APP_SIGNALS_ENABLED
+        value: "true"
+      - name: OTEL_AWS_APPLICATION_SIGNALS_ENABLED
+        value: "true"
+      - name: OTEL_TRACES_SAMPLER_ARG
+        value: endpoint=http://cloudwatch-agent.amazon-cloudwatch:2000
+      - name: OTEL_TRACES_SAMPLER
+        value: xray
+      - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316/v1/traces
+      - name: OTEL_AWS_APP_SIGNALS_EXPORTER_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316/v1/metrics
+      - name: OTEL_AWS_APPLICATION_SIGNALS_EXPORTER_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316/v1/metrics
+      - name: OTEL_AWS_APPLICATION_SIGNALS_RUNTIME_ENABLED
+        value: "true"
+      - name: OTEL_AWS_OTLP_LOGS_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316/v1/logs
+      - name: OTEL_AWS_OTLP_METRICS_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316/v1/metrics
+      - name: OTEL_AWS_DYNAMIC_INSTRUMENTATION_API_URL
+        value: http://cloudwatch-agent.amazon-cloudwatch:2000
+      - name: JAVA_TOOL_OPTIONS
+        value: ' -javaagent:/otel-auto-instrumentation-java/javaagent.jar'
+      - name: OTEL_SERVICE_NAME
+        value: retail-store-ui
+      - name: OTEL_RESOURCE_ATTRIBUTES_POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: OTEL_RESOURCE_ATTRIBUTES_NODE_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      - name: OTEL_PROPAGATORS
+        value: tracecontext,baggage,xray
+      - name: OTEL_AWS_APPLICATION_SIGNALS_ENABLED
+        value: "true"
+      - name: OTEL_TRACES_SAMPLER_ARG
+        value: endpoint=http://cloudwatch-agent.amazon-cloudwatch:2000
+      - name: OTEL_TRACES_SAMPLER
+        value: xray
+      - name: OTEL_EXPORTER_OTLP_PROTOCOL
+        value: http/protobuf
+      - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316/v1/traces
+      - name: OTEL_AWS_APPLICATION_SIGNALS_EXPORTER_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316/v1/metrics
+      - name: OTEL_METRICS_EXPORTER
+        value: none
+      - name: OTEL_LOGS_EXPORTER
+        value: none
+      - name: OTEL_AWS_OTLP_LOGS_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316/v1/logs
+      - name: OTEL_AWS_OTLP_METRICS_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316/v1/metrics
+      - name: OTEL_AWS_DYNAMIC_INSTRUMENTATION_API_URL
+        value: http://cloudwatch-agent.amazon-cloudwatch:2000
+      - name: NODE_OPTIONS
+        value: ' --require /otel-auto-instrumentation-nodejs/autoinstrumentation.js'
+      - name: OTEL_AWS_APP_SIGNALS_ENABLED
+        value: "true"
+      - name: OTEL_AWS_APPLICATION_SIGNALS_ENABLED
+        value: "true"
+      - name: OTEL_TRACES_SAMPLER_ARG
+        value: endpoint=http://cloudwatch-agent.amazon-cloudwatch:2000
+      - name: OTEL_TRACES_SAMPLER
+        value: xray
+      - name: OTEL_EXPORTER_OTLP_PROTOCOL
+        value: http/protobuf
+      - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316/v1/traces
+      - name: OTEL_AWS_APP_SIGNALS_EXPORTER_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316/v1/metrics
+      - name: OTEL_AWS_APPLICATION_SIGNALS_EXPORTER_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316/v1/metrics
+      - name: OTEL_AWS_APPLICATION_SIGNALS_RUNTIME_ENABLED
+        value: "true"
+      - name: OTEL_METRICS_EXPORTER
+        value: none
+      - name: OTEL_PYTHON_DISTRO
+        value: aws_distro
+      - name: OTEL_PYTHON_CONFIGURATOR
+        value: aws_configurator
+      - name: OTEL_LOGS_EXPORTER
+        value: none
+      - name: OTEL_AWS_OTLP_LOGS_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316/v1/logs
+      - name: OTEL_AWS_OTLP_METRICS_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316/v1/metrics
+      - name: OTEL_AWS_DYNAMIC_INSTRUMENTATION_API_URL
+        value: http://cloudwatch-agent.amazon-cloudwatch:2000
+      - name: PYTHONPATH
+        value: /otel-auto-instrumentation-python/opentelemetry/instrumentation/auto_instrumentation:/otel-auto-instrumentation-python
+      - name: OTEL_TRACES_EXPORTER
+        value: otlp
+      - name: OTEL_EXPORTER_OTLP_TRACES_PROTOCOL
+        value: http/protobuf
+      - name: OTEL_EXPORTER_OTLP_METRICS_PROTOCOL
+        value: http/protobuf
+      - name: OTEL_AWS_APPLICATION_SIGNALS_ENABLED
+        value: "true"
+      - name: OTEL_AWS_APPLICATION_SIGNALS_RUNTIME_ENABLED
+        value: "true"
+      - name: OTEL_TRACES_SAMPLER_ARG
+        value: endpoint=http://cloudwatch-agent.amazon-cloudwatch:2000
+      - name: OTEL_TRACES_SAMPLER
+        value: xray
+      - name: OTEL_EXPORTER_OTLP_PROTOCOL
+        value: http/protobuf
+      - name: OTEL_EXPORTER_OTLP_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316
+      - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316/v1/traces
+      - name: OTEL_AWS_APPLICATION_SIGNALS_EXPORTER_ENDPOINT
+        value: http://cloudwatch-agent.amazon-cloudwatch:4316/v1/metrics
+      - name: OTEL_METRICS_EXPORTER
+        value: none
+      - name: OTEL_DOTNET_DISTRO
+        value: aws_distro
+      - name: OTEL_DOTNET_CONFIGURATOR
+        value: aws_configurator
+      - name: OTEL_LOGS_EXPORTER
+        value: none
+      - name: OTEL_DOTNET_AUTO_PLUGINS
+        value: AWS.Distro.OpenTelemetry.AutoInstrumentation.Plugin, AWS.Distro.OpenTelemetry.AutoInstrumentation
+      - name: CORECLR_ENABLE_PROFILING
+        value: "1"
+      - name: CORECLR_PROFILER
+        value: '{918728DD-259F-4A6A-AC2B-B85E1B658318}'
+      - name: CORECLR_PROFILER_PATH
+        value: /otel-auto-instrumentation-dotnet/linux-x64/OpenTelemetry.AutoInstrumentation.Native.so
+      - name: DOTNET_STARTUP_HOOKS
+        value: /otel-auto-instrumentation-dotnet/net/OpenTelemetry.AutoInstrumentation.StartupHook.dll
+      - name: DOTNET_ADDITIONAL_DEPS
+        value: /otel-auto-instrumentation-dotnet/AdditionalDeps
+      - name: OTEL_DOTNET_AUTO_HOME
+        value: /otel-auto-instrumentation-dotnet
+      - name: DOTNET_SHARED_STORE
+        value: /otel-auto-instrumentation-dotnet/store
+      - name: OTEL_RESOURCE_ATTRIBUTES
+        value: com.amazonaws.cloudwatch.entity.internal.service.name.source=K8sWorkload,k8s.container.name=ui,k8s.deployment.name=retail-store-ui,k8s.namespace.name=retail-app,k8s.node.name=$(OTEL_RESOURCE_ATTRIBUTES_NODE_NAME),k8s.pod.name=$(OTEL_RESOURCE_ATTRIBUTES_POD_NAME),k8s.replicaset.name=retail-store-ui-6fbdf76cf,service.version=0.8.5
+      envFrom:
+      - configMapRef:
+          name: retail-store-ui
+      image: public.ecr.aws/aws-containers/retail-store-sample-ui:0.8.5
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /actuator/health/liveness
+          port: 8080
+          scheme: HTTP
+        initialDelaySeconds: 45
+        periodSeconds: 3
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: ui
+      ports:
+      - containerPort: 8080
+        name: http
+        protocol: TCP
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          cpu: 128m
+          memory: 512Mi
+      securityContext:
+        capabilities:
+          add:
+          - NET_BIND_SERVICE
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 1000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /tmp
+        name: tmp-volume
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6hlb6
+        readOnly: true
+      - mountPath: /otel-auto-instrumentation-java
+        name: opentelemetry-auto-instrumentation-java
+      - mountPath: /otel-auto-instrumentation-nodejs
+        name: opentelemetry-auto-instrumentation-nodejs
+      - mountPath: /otel-auto-instrumentation-python
+        name: opentelemetry-auto-instrumentation-python
+      - mountPath: /otel-auto-instrumentation-dotnet
+        name: opentelemetry-auto-instrumentation-dotnet
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    initContainers:
+    - command:
+      - cp
+      - /javaagent.jar
+      - /otel-auto-instrumentation-java/javaagent.jar
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-java:v2.29.0
+      imagePullPolicy: IfNotPresent
+      name: opentelemetry-auto-instrumentation-java
+      resources:
+        limits:
+          cpu: 500m
+          memory: 64Mi
+        requests:
+          cpu: 50m
+          memory: 64Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /otel-auto-instrumentation-java
+        name: opentelemetry-auto-instrumentation-java
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6hlb6
+        readOnly: true
+    - command:
+      - cp
+      - -r
+      - /autoinstrumentation/.
+      - /otel-auto-instrumentation-nodejs
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-node:v0.12.0
+      imagePullPolicy: IfNotPresent
+      name: opentelemetry-auto-instrumentation-nodejs
+      resources:
+        limits:
+          cpu: 500m
+          memory: 128Mi
+        requests:
+          cpu: 50m
+          memory: 128Mi
+      securityContext:
+        capabilities:
+          add:
+          - NET_BIND_SERVICE
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 1000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /otel-auto-instrumentation-nodejs
+        name: opentelemetry-auto-instrumentation-nodejs
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6hlb6
+        readOnly: true
+    - command:
+      - cp
+      - -r
+      - /autoinstrumentation/.
+      - /otel-auto-instrumentation-python
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-python:v0.18.0
+      imagePullPolicy: IfNotPresent
+      name: opentelemetry-auto-instrumentation-python
+      resources:
+        limits:
+          cpu: 500m
+          memory: 32Mi
+        requests:
+          cpu: 50m
+          memory: 32Mi
+      securityContext:
+        capabilities:
+          add:
+          - NET_BIND_SERVICE
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 1000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /otel-auto-instrumentation-python
+        name: opentelemetry-auto-instrumentation-python
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6hlb6
+        readOnly: true
+    - command:
+      - cp
+      - -r
+      - /autoinstrumentation/.
+      - /otel-auto-instrumentation-dotnet
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-dotnet:v1.14.0
+      imagePullPolicy: IfNotPresent
+      name: opentelemetry-auto-instrumentation-dotnet
+      resources:
+        limits:
+          cpu: 500m
+          memory: 128Mi
+        requests:
+          cpu: 50m
+          memory: 128Mi
+      securityContext:
+        capabilities:
+          add:
+          - NET_BIND_SERVICE
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 1000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /otel-auto-instrumentation-dotnet
+        name: opentelemetry-auto-instrumentation-dotnet
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6hlb6
+        readOnly: true
+    nodeName: ip-10-20-10-172.ec2.internal
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1000
+    serviceAccount: retail-store-ui
+    serviceAccountName: retail-store-ui
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - emptyDir:
+        medium: Memory
+      name: tmp-volume
+    - name: kube-api-access-6hlb6
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+    - emptyDir:
+        sizeLimit: 200Mi
+      name: opentelemetry-auto-instrumentation-java
+    - emptyDir:
+        sizeLimit: 200Mi
+      name: opentelemetry-auto-instrumentation-nodejs
+    - emptyDir:
+        sizeLimit: 200Mi
+      name: opentelemetry-auto-instrumentation-python
+    - emptyDir:
+        sizeLimit: 200Mi
+      name: opentelemetry-auto-instrumentation-dotnet
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-16T10:29:15Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-16T10:29:28Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-16T10:29:45Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-16T10:29:45Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-16T10:29:12Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - allocatedResources:
+        cpu: 128m
+        memory: 512Mi
+      containerID: containerd://54ac4d31116fe52a3a2a0bcf7ef109037b55832c68fd4407ee3a5c682d7af49e
+      image: public.ecr.aws/aws-containers/retail-store-sample-ui:0.8.5
+      imageID: public.ecr.aws/aws-containers/retail-store-sample-ui@sha256:ba081eb7e2bd38a4ad5dbbbb8b9b9b11fc0bcb987227af0e918cadada793cd5e
+      lastState: {}
+      name: ui
+      ready: true
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          cpu: 128m
+          memory: 512Mi
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-08-16T10:29:44Z"
+      user:
+        linux:
+          gid: 1000
+          supplementalGroups:
+          - 1000
+          uid: 1000
+      volumeMounts:
+      - mountPath: /tmp
+        name: tmp-volume
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6hlb6
+        readOnly: true
+        recursiveReadOnly: Disabled
+      - mountPath: /otel-auto-instrumentation-java
+        name: opentelemetry-auto-instrumentation-java
+      - mountPath: /otel-auto-instrumentation-nodejs
+        name: opentelemetry-auto-instrumentation-nodejs
+      - mountPath: /otel-auto-instrumentation-python
+        name: opentelemetry-auto-instrumentation-python
+      - mountPath: /otel-auto-instrumentation-dotnet
+        name: opentelemetry-auto-instrumentation-dotnet
+    hostIP: 10.20.10.172
+    hostIPs:
+    - ip: 10.20.10.172
+    initContainerStatuses:
+    - allocatedResources:
+        cpu: 50m
+        memory: 64Mi
+      containerID: containerd://dd537eb771f9f34a2c2b31099519f8f6ee4571aca4c4b1b3808854bcdbb054a3
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-java:v2.29.0
+      imageID: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-java@sha256:09e78cb18c2b5d7fb8e7ea017348461e285d19b06ec1975ec6636bbf620d4494
+      lastState: {}
+      name: opentelemetry-auto-instrumentation-java
+      ready: true
+      resources:
+        limits:
+          cpu: 500m
+          memory: 64Mi
+        requests:
+          cpu: 50m
+          memory: 64Mi
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: containerd://dd537eb771f9f34a2c2b31099519f8f6ee4571aca4c4b1b3808854bcdbb054a3
+          exitCode: 0
+          finishedAt: "2026-08-16T10:29:15Z"
+          reason: Completed
+          startedAt: "2026-08-16T10:29:14Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          - 1000
+          uid: 0
+      volumeMounts:
+      - mountPath: /otel-auto-instrumentation-java
+        name: opentelemetry-auto-instrumentation-java
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6hlb6
+        readOnly: true
+        recursiveReadOnly: Disabled
+    - allocatedResources:
+        cpu: 50m
+        memory: 128Mi
+      containerID: containerd://bf4905783773edaf8cf09b4b65c254960dc0d3a144299b31bcf155647cd8d999
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-node:v0.12.0
+      imageID: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-node@sha256:d28ba22730cbc406be6cce0455a1a48226fdd6ed174dac40b75c9ef15e82cc21
+      lastState: {}
+      name: opentelemetry-auto-instrumentation-nodejs
+      ready: true
+      resources:
+        limits:
+          cpu: 500m
+          memory: 128Mi
+        requests:
+          cpu: 50m
+          memory: 128Mi
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: containerd://bf4905783773edaf8cf09b4b65c254960dc0d3a144299b31bcf155647cd8d999
+          exitCode: 0
+          finishedAt: "2026-08-16T10:29:21Z"
+          reason: Completed
+          startedAt: "2026-08-16T10:29:18Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          - 1000
+          uid: 1000
+      volumeMounts:
+      - mountPath: /otel-auto-instrumentation-nodejs
+        name: opentelemetry-auto-instrumentation-nodejs
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6hlb6
+        readOnly: true
+        recursiveReadOnly: Disabled
+    - allocatedResources:
+        cpu: 50m
+        memory: 32Mi
+      containerID: containerd://03dfc892ce9194cb94e38f8804260c3123eb5e6d6a89567357c8e62b6160f169
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-python:v0.18.0
+      imageID: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-python@sha256:c287abe89469c74d1a641d33048c6baa5372515dede452d95897c4b9a3faf51b
+      lastState: {}
+      name: opentelemetry-auto-instrumentation-python
+      ready: true
+      resources:
+        limits:
+          cpu: 500m
+          memory: 32Mi
+        requests:
+          cpu: 50m
+          memory: 32Mi
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: containerd://03dfc892ce9194cb94e38f8804260c3123eb5e6d6a89567357c8e62b6160f169
+          exitCode: 0
+          finishedAt: "2026-08-16T10:29:24Z"
+          reason: Completed
+          startedAt: "2026-08-16T10:29:23Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          - 1000
+          uid: 1000
+      volumeMounts:
+      - mountPath: /otel-auto-instrumentation-python
+        name: opentelemetry-auto-instrumentation-python
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6hlb6
+        readOnly: true
+        recursiveReadOnly: Disabled
+    - allocatedResources:
+        cpu: 50m
+        memory: 128Mi
+      containerID: containerd://79468dfb1d48a8d6dcd311e94feb51db842de74ea4932d9d65735be1b187af2c
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-dotnet:v1.14.0
+      imageID: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-dotnet@sha256:405b03131d24169144aa9dcff27159d6222640d369b95f9eb3b6714fa59259ba
+      lastState: {}
+      name: opentelemetry-auto-instrumentation-dotnet
+      ready: true
+      resources:
+        limits:
+          cpu: 500m
+          memory: 128Mi
+        requests:
+          cpu: 50m
+          memory: 128Mi
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: containerd://79468dfb1d48a8d6dcd311e94feb51db842de74ea4932d9d65735be1b187af2c
+          exitCode: 0
+          finishedAt: "2026-08-16T10:29:28Z"
+          reason: Completed
+          startedAt: "2026-08-16T10:29:26Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          - 1000
+          uid: 1000
+      volumeMounts:
+      - mountPath: /otel-auto-instrumentation-dotnet
+        name: opentelemetry-auto-instrumentation-dotnet
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6hlb6
+        readOnly: true
+        recursiveReadOnly: Disabled
+    phase: Running
+    podIP: 10.20.10.48
+    podIPs:
+    - ip: 10.20.10.48
+    qosClass: Burstable
+    startTime: "2026-08-16T10:29:12Z"
+kind: List
+metadata:
+  resourceVersion: ""

@@ -9,6 +9,25 @@ variable "retail_store_chart_version" {
   default     = "0.8.5"
 }
 
+# Rendered from values.yaml.tpl. Also written out to a committed
+# values.yaml at the repo root (see local_file below) so the deployment
+# satisfies the exam's "custom values.yaml committed to the repo,
+# deployable via a single helm upgrade --install command" requirement —
+# without duplicating this logic by hand in two places.
+locals {
+  retail_store_values = templatefile("${path.module}/values.yaml.tpl", {
+    catalog_role_arn          = aws_iam_role.catalog_service.arn
+    catalog_mysql_endpoint    = aws_db_instance.catalog_mysql.address
+    catalog_mysql_database    = aws_db_instance.catalog_mysql.db_name
+    orders_role_arn           = aws_iam_role.orders_service.arn
+    orders_postgres_database  = aws_db_instance.orders_postgres.db_name
+    orders_postgres_host      = aws_db_instance.orders_postgres.address
+    orders_postgres_port      = tostring(aws_db_instance.orders_postgres.port)
+    carts_role_arn            = aws_iam_role.carts_service.arn
+    carts_dynamodb_table_name = aws_dynamodb_table.carts.name
+  })
+}
+
 resource "helm_release" "retail_store" {
   name       = "retail-store"
   repository = "oci://public.ecr.aws/aws-containers"
@@ -16,84 +35,25 @@ resource "helm_release" "retail_store" {
   version    = var.retail_store_chart_version
   namespace  = local.app_namespace
 
-  # Every key below was checked against the REAL subchart values.yaml
-  # files (helm pull --untar + cat charts/*/values.yaml) after an
-  # earlier apply failed on made-up key names — not guessed from
-  # documentation for a different deployment method.
-  values = [
-    yamlencode({
-      catalog = {
-        serviceAccount = {
-          annotations = {
-            # Not for the catalog app's own AWS calls (it doesn't make
-            # any) — this is so External Secrets Operator can assume
-            # this exact role when authenticating as the "catalog"
-            # service account (see external-secrets.tf SecretStore).
-            "eks.amazonaws.com/role-arn" = aws_iam_role.catalog_service.arn
-          }
-        }
-        mysql = {
-          create   = false # disable the chart's own throwaway in-cluster MySQL
-          endpoint = aws_db_instance.catalog_mysql.address
-          database = aws_db_instance.catalog_mysql.db_name
-          secret = {
-            create = false        # ESO supplies this secret, not Helm
-            name   = "catalog-db" # must match chart default exactly
-          }
-        }
-      }
-
-      orders = {
-        serviceAccount = {
-          annotations = {
-            "eks.amazonaws.com/role-arn" = aws_iam_role.orders_service.arn
-          }
-        }
-        postgresql = {
-          create   = false
-          database = aws_db_instance.orders_postgres.db_name
-          endpoint = {
-            host = aws_db_instance.orders_postgres.address
-            port = tostring(aws_db_instance.orders_postgres.port)
-          }
-          secret = {
-            create = false
-            name   = "orders-db"
-          }
-        }
-        # rabbitmq intentionally left on chart defaults (in-cluster) —
-        # not in scope for this exam's data-layer requirements.
-      }
-
-      carts = {
-        serviceAccount = {
-          annotations = {
-            # carts DOES call AWS directly (DynamoDB item operations),
-            # unlike catalog/orders — this role is used by the running
-            # pod itself, not just by ESO.
-            "eks.amazonaws.com/role-arn" = aws_iam_role.carts_service.arn
-          }
-        }
-        dynamodb = {
-          create      = false # disable the chart's dynamodb-local dev container
-          createTable = false # table already exists — Terraform manages it
-          tableName   = aws_dynamodb_table.carts.name
-        }
-      }
-
-      # Internal-only ClusterIP for now — the ALB/Ingress step comes next
-      # and will expose the ui service properly.
-      ui = {
-        service = {
-          type = "ClusterIP"
-        }
-      }
-    })
-  ]
+  # Values live in values.yaml.tpl now, not inline — see locals above.
+  # Every key in that template was checked against the REAL subchart
+  # values.yaml files (helm pull --untar + cat charts/*/values.yaml)
+  # after an earlier apply failed on made-up key names — not guessed
+  # from documentation for a different deployment method.
+  values = [local.retail_store_values]
 
   depends_on = [
     kubernetes_manifest.externalsecret_catalog,
     kubernetes_manifest.externalsecret_orders,
     aws_dynamodb_table.carts,
   ]
+}
+
+# Commits the rendered values to the repo root as a real, reviewable
+# file — satisfies "custom values.yaml committed to your repository"
+# from exam 5.1, and stays in sync automatically since RDS endpoints
+# change on every destroy/recreate (e.g. the pause/resume cycle).
+resource "local_file" "retail_store_values" {
+  content  = local.retail_store_values
+  filename = "${path.module}/../../values.yaml"
 }

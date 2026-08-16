@@ -56,11 +56,19 @@ resource "aws_security_group" "rds" {
 resource "random_password" "mysql" {
   length  = 20
   special = false # avoids characters RDS/MySQL connection strings can choke on
+
+  lifecycle {
+    ignore_changes = [special]
+  }
 }
 
 resource "random_password" "postgres" {
   length  = 20
   special = false
+
+  lifecycle {
+    ignore_changes = [special]
+  }
 }
 
 # --- RDS: MySQL (Catalog service) -------------------------------------------
@@ -68,7 +76,7 @@ resource "random_password" "postgres" {
 resource "aws_db_instance" "catalog_mysql" {
   identifier     = "project-bedrock-catalog-mysql"
   engine         = "mysql"
-  engine_version = "8.0"
+  engine_version = "8.0.46"
   instance_class = "db.t3.micro"
 
   allocated_storage = 20
@@ -93,6 +101,13 @@ resource "aws_db_instance" "catalog_mysql" {
   tags = {
     Name = "project-bedrock-catalog-mysql"
   }
+
+  lifecycle {
+    ignore_changes = [
+      engine_version,
+      password
+    ]
+  }
 }
 
 # --- RDS: PostgreSQL (Orders service) ---------------------------------------
@@ -100,7 +115,7 @@ resource "aws_db_instance" "catalog_mysql" {
 resource "aws_db_instance" "orders_postgres" {
   identifier     = "project-bedrock-orders-postgres"
   engine         = "postgres"
-  engine_version = "16"
+  engine_version = "16.13"
   instance_class = "db.t3.micro"
 
   allocated_storage = 20
@@ -123,6 +138,13 @@ resource "aws_db_instance" "orders_postgres" {
 
   tags = {
     Name = "project-bedrock-orders-postgres"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      engine_version,
+      # password
+    ]
   }
 }
 

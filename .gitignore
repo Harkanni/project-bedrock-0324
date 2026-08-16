@@ -59,6 +59,9 @@ retail-store-sample-chart
 text-file.txt
 grading2.json
 generate_proofs.sh
+output_file.txt
+Pause.sh
+Resume.sh
 
 # terraform.yaml
 

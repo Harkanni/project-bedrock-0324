@@ -7,7 +7,7 @@ resource "aws_eks_cluster" "main" {
   # Oldest actively-supported (standard support) version at build time.
   # Checked against the EKS version lifecycle table — do not let this
   # go stale; re-check before you actually apply if time has passed.
-  version = "1.33"
+  version = "1.34"
 
   vpc_config {
     subnet_ids = concat(aws_subnet.public[*].id, aws_subnet.private[*].id)
@@ -107,6 +107,7 @@ resource "aws_eks_node_group" "main" {
   node_group_name = "project-bedrock-nodes"
   node_role_arn   = aws_iam_role.eks_node_group.arn
   subnet_ids      = aws_subnet.private[*].id
+  version         = aws_eks_cluster.main.version
 
   # t3.small — confirmed free-tier eligible on this specific AWS account
   # (checked via `aws ec2 describe-instance-types --filters
