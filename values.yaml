@@ -11,10 +11,10 @@ catalog:
       # this is so External Secrets Operator can assume this exact role
       # when authenticating as the "catalog" service account (see
       # external-secrets.tf SecretStore).
-      eks.amazonaws.com/role-arn: arn:aws:iam::969325258559:role/project-bedrock-catalog-service-role
+      eks.amazonaws.com/role-arn: arn:aws:iam::943088191357:role/project-bedrock-catalog-service-role
   mysql:
     create: false # disable the chart's own throwaway in-cluster MySQL
-    endpoint: project-bedrock-catalog-mysql.cwbmiwk2i4r8.us-east-1.rds.amazonaws.com
+    endpoint: project-bedrock-catalog-mysql.cqd82a2esy3n.us-east-1.rds.amazonaws.com
     database: catalog
     secret:
       create: false        # ESO supplies this secret, not Helm
@@ -23,12 +23,12 @@ catalog:
 orders:
   serviceAccount:
     annotations:
-      eks.amazonaws.com/role-arn: arn:aws:iam::969325258559:role/project-bedrock-orders-service-role
+      eks.amazonaws.com/role-arn: arn:aws:iam::943088191357:role/project-bedrock-orders-service-role
   postgresql:
     create: false
     database: orders
     endpoint:
-      host: project-bedrock-orders-postgres.cwbmiwk2i4r8.us-east-1.rds.amazonaws.com
+      host: project-bedrock-orders-postgres.cqd82a2esy3n.us-east-1.rds.amazonaws.com
       port: "5432"
     secret:
       create: false
@@ -42,7 +42,7 @@ carts:
       # carts DOES call AWS directly (DynamoDB item operations), unlike
       # catalog/orders — this role is used by the running pod itself,
       # not just by ESO.
-      eks.amazonaws.com/role-arn: arn:aws:iam::969325258559:role/project-bedrock-carts-service-role
+      eks.amazonaws.com/role-arn: arn:aws:iam::943088191357:role/project-bedrock-carts-service-role
   dynamodb:
     create: false      # disable the chart's dynamodb-local dev container
     createTable: false # table already exists — Terraform manages it

@@ -35,8 +35,6 @@ resource "aws_subnet" "public" {
 
   tags = {
     Name = "project-bedrock-public-${var.availability_zones[count.index]}"
-    # Required so EKS / the AWS Load Balancer Controller can auto-discover
-    # this subnet as a candidate for internet-facing load balancers.
     "kubernetes.io/role/elb"                      = "1"
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
   }
@@ -54,8 +52,6 @@ resource "aws_subnet" "private" {
 
   tags = {
     Name = "project-bedrock-private-${var.availability_zones[count.index]}"
-    # Required so EKS / the AWS Load Balancer Controller can auto-discover
-    # this subnet for internal load balancers and EC2 auto-discovery.
     "kubernetes.io/role/internal-elb"             = "1"
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
   }

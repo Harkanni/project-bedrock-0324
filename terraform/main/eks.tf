@@ -7,7 +7,7 @@ resource "aws_eks_cluster" "main" {
   # Oldest actively-supported (standard support) version at build time.
   # Checked against the EKS version lifecycle table — do not let this
   # go stale; re-check before you actually apply if time has passed.
-  version = "1.34"
+  version = "1.35"
 
   vpc_config {
     subnet_ids = concat(aws_subnet.public[*].id, aws_subnet.private[*].id)

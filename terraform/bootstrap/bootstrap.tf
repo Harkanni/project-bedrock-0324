@@ -25,7 +25,7 @@ variable "aws_region" {
 variable "state_bucket_name" {
   description = "Globally-unique name for the Terraform remote state bucket"
   type        = string
-  default     = "project-bedrock-tfstate-alt-soe-tin-o25-0324"
+  default     = "project-bedrock-tfstate-alt-soe-tin-025-0324"
 }
 
 resource "aws_s3_bucket" "tf_state" {
@@ -52,17 +52,6 @@ resource "aws_s3_bucket_versioning" "tf_state" {
 
   versioning_configuration {
     status = "Enabled"
-  }
-}
-
-# Encrypt state at rest — Terraform state can contain sensitive values.
-resource "aws_s3_bucket_server_side_encryption_configuration" "tf_state" {
-  bucket = aws_s3_bucket.tf_state.id
-
-  rule {
-    apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
-    }
   }
 }
 

@@ -1,7 +1,7 @@
 # --- Event-Driven Extension: S3 -> Lambda image processor (exam 4.5) ------
 
 resource "aws_s3_bucket" "assets" {
-  bucket = "bedrock-assets-alt-soe-tin-o25-0324"
+  bucket = "bedrock-assets-alt-soe-tin-025-0324"
 }
 
 # Exam requires Block Public Access enabled — all four settings, not just one.

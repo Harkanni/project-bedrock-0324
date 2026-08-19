@@ -62,6 +62,7 @@ generate_proofs.sh
 output_file.txt
 Pause.sh
 Resume.sh
+R
 backups/
 
 # terraform.yaml

@@ -76,7 +76,7 @@ resource "random_password" "postgres" {
 resource "aws_db_instance" "catalog_mysql" {
   identifier     = "project-bedrock-catalog-mysql"
   engine         = "mysql"
-  engine_version = "8.0.46"
+  engine_version = "8.4"
   instance_class = "db.t3.micro"
 
   allocated_storage = 20
