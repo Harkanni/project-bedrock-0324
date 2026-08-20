@@ -34,7 +34,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "project-bedrock-public-${var.availability_zones[count.index]}"
+    Name                                          = "project-bedrock-public-${var.availability_zones[count.index]}"
     "kubernetes.io/role/elb"                      = "1"
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
   }
@@ -51,7 +51,7 @@ resource "aws_subnet" "private" {
   availability_zone = var.availability_zones[count.index]
 
   tags = {
-    Name = "project-bedrock-private-${var.availability_zones[count.index]}"
+    Name                                          = "project-bedrock-private-${var.availability_zones[count.index]}"
     "kubernetes.io/role/internal-elb"             = "1"
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
   }
